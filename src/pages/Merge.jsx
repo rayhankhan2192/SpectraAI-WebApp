@@ -1,0 +1,153 @@
+import { useRef, useState, useEffect } from "react";
+import CsvViewer from "../Component/Merge/CsvViewer";
+import MergeForm from "../Component/Merge/MergeForm";
+import MergeResults from "../Component/Merge/MergeResults";
+import Navbar from "../Component/Navbar";
+
+const Merge = () => {
+  const mergeResultsRef = useRef();
+  const csvViewerRef = useRef();
+  const [selectedCsv, setSelectedCsv] = useState(null);
+
+  const handleMergeSuccess = () => {
+    // Refresh the merge results list after successful merge
+    if (mergeResultsRef.current) {
+      mergeResultsRef.current.refresh();
+    }
+  };
+
+  const handleUseCsv = (file) => {
+    setSelectedCsv({
+      url: file.url,
+      filename: file.filename,
+    });
+  };
+
+  const handleCloseCsv = () => {
+    setSelectedCsv(null);
+  };
+
+  // Smooth scroll to CSV viewer when it appears
+  useEffect(() => {
+    if (selectedCsv && csvViewerRef.current) {
+      setTimeout(() => {
+        csvViewerRef.current.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }, 100);
+    }
+  }, [selectedCsv]);
+
+  return (
+    <div className="relative min-h-screen w-full bg-black">
+      {/* Background Image */}
+      <div
+        className="fixed inset-0 w-full h-full"
+        style={{
+          backgroundImage: "url(/aa.png)",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          zIndex: 0,
+        }}
+      >
+        <div className="absolute inset-0 bg-black/50"></div>
+      </div>
+
+      {/* Content Container */}
+      <div className="relative z-10">
+        {/* Navbar */}
+        <Navbar />
+
+        {/* Main Content */}
+        <div className="max-w-7xl mx-auto px-6 pt-40 pb-16">
+          {/* Main Card Container */}
+          <div className="bg-[#0a0f1a] border border-gray-800 rounded-lg p-6 md:p-8">
+            <div className="text-center mb-8">
+              <h2
+                className="text-3xl md:text-4xl font-extrabold tracking-wide animate-fade-in"
+                style={{
+                  background: "linear-gradient(90deg, #60A5FA 0%, #34D399 100%)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                  backgroundSize: "200% auto",
+                }}
+              >
+                Power up the model with unified data.
+              </h2>
+              <p className="text-gray-400 text-sm md:text-base mt-2 animate-fade-in" style={{ animationDelay: "0.2s" }}>
+                Upload two CSVs, fuse them seamlessly, and unlock unified insights.
+              </p>
+            </div>
+
+            <h2 className="text-xl font-semibold text-white mb-6 animate-fade-in">
+              Merge TWO New CSVs
+            </h2>
+
+            {/* Two Column Layout */}
+            <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+              {/* Left Column - Merge Form (2 columns) */}
+              <div className="lg:col-span-2">
+                <MergeForm onMergeSuccess={handleMergeSuccess} />
+              </div>
+
+              {/* Right Column - Results Table (3 columns) */}
+              <div className="lg:col-span-3">
+                <MergeResults ref={mergeResultsRef} onUseCsv={handleUseCsv} />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="max-w-9xl mx-auto px-6 pb-16">
+          {/* CSV Viewer - Appears below merge card when a file is selected */}
+          {selectedCsv && (
+            <div ref={csvViewerRef} className="mt-6">
+              <CsvViewer
+                csvUrl={selectedCsv.url}
+                filename={selectedCsv.filename}
+                onClose={handleCloseCsv}
+              />
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Custom Animations */}
+      <style jsx>{`
+        @keyframes fade-in {
+          from {
+            opacity: 0;
+          }
+          to {
+            opacity: 1;
+          }
+        }
+
+        @keyframes slide-in-up {
+          from {
+            opacity: 0;
+            transform: translateY(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        .animate-fade-in {
+          animation: fade-in 0.6s ease-out;
+        }
+
+        .animate-slide-in-up {
+          animation: slide-in-up 0.6s ease-out;
+          opacity: 0;
+          animation-fill-mode: forwards;
+        }
+      `}</style>
+    </div>
+  );
+};
+
+export default Merge;
