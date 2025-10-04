@@ -200,7 +200,7 @@ const CsvViewer = () => {
                 {/* Select Satellite */}
                 <div className="bg-[#0a0f1a] border border-gray-800 rounded-lg p-6">
                   <h3 className="text-white text-base font-medium mb-4">
-                    Select a NASA Satellite
+                    Select a NASA Satellit
                   </h3>
                   <div className="flex gap-3">
                     <button
@@ -214,14 +214,14 @@ const CsvViewer = () => {
                       KOI
                     </button>
                     <button
-                      onClick={() => setSatellite('TOI')}
+                      onClick={() => setSatellite('K2')}
                       className={`flex-1 py-2 text-sm rounded-md font-medium transition-all ${
-                        satellite === 'TOI'
+                        satellite === 'K2'
                           ? 'bg-blue-600 text-white'
                           : 'bg-[#151b2a] border border-gray-700 text-white hover:bg-[#1a2132]'
                       }`}
                     >
-                      TOI
+                      K2
                     </button>
                     <button
                       onClick={() => setSatellite('TESS')}
