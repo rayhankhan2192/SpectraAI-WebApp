@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Home from './pages/Home'
 import About from './pages/About'
+import Community from './pages/Community'
 import Upload from './pages/Upload'
 import Merge from './pages/Merge'
 import Training from './pages/Training'
@@ -12,6 +13,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
+        <Route path="/community" element={<Community />} />
         <Route path="/upload" element={<Upload />} />
         <Route path="/merge" element={<Merge />} />
         <Route path="/training" element={<Training />} />
